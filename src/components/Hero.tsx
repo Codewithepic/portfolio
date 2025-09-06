@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowDown, Github, Linkedin, Mail, Twitter, Download } from "lucide-react";
 import { personalInfo } from "@/lib/data";
 import { motion } from "framer-motion";
+import { Typewriter } from "./Typewriter";
+import { ParticleBackground } from "./ParticleBackground";
 
 export function Hero() {
   const scrollToSection = (sectionId: string) => {
@@ -31,187 +33,247 @@ export function Hero() {
     }
   };
 
-  return (
-    <section className="min-h-screen flex items-center justify-center px-6 relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900"></div>
-      <motion.div 
-        className="absolute top-20 right-20 w-72 h-72 bg-blue-200 dark:bg-blue-800 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-        animate={{ 
-          x: [0, 30, -30, 0],
-          y: [0, -30, 30, 0],
-          scale: [1, 1.1, 0.9, 1]
-        }}
-        transition={{ 
-          duration: 20,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-      <motion.div 
-        className="absolute top-40 left-20 w-72 h-72 bg-purple-200 dark:bg-purple-800 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-        animate={{ 
-          x: [0, -20, 40, 0],
-          y: [0, 40, -20, 0],
-          scale: [1, 0.8, 1.2, 1]
-        }}
-        transition={{ 
-          duration: 25,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2
-        }}
-      />
-      <motion.div 
-        className="absolute bottom-20 left-40 w-72 h-72 bg-pink-200 dark:bg-pink-800 rounded-full mix-blend-multiply filter blur-xl opacity-70"
-        animate={{ 
-          x: [0, 50, -25, 0],
-          y: [0, -25, 50, 0],
-          scale: [1, 1.3, 0.7, 1]
-        }}
-        transition={{ 
-          duration: 30,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 4
-        }}
-      />
+  const floatingVariants = {
+    animate: {
+      y: [0, -10, 0],
+      transition: {
+        duration: 3,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
 
+  const pulseVariants = {
+    animate: {
+      scale: [1, 1.05, 1],
+      transition: {
+        duration: 2,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    }
+  };
+
+  const rotateVariants = {
+    animate: {
+      rotate: [0, 360],
+      transition: {
+        duration: 20,
+        repeat: Infinity,
+        ease: "linear"
+      }
+    }
+  };
+
+  const typingWords = ["Cybersecurity Expert", "Blockchain Developer", "AI Enthusiast", "Full Stack Developer"];
+
+  return (
+    <section className="min-h-screen flex items-center justify-center px-6 relative bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-blue-900 overflow-hidden">
+      {/* Particle Background */}
+      <ParticleBackground />
+      
+      {/* Animated Background Elements */}
       <motion.div 
-        className="relative z-10 max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center"
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        {/* Left Content */}
-        <div className="space-y-8">
-          <div className="space-y-4">
+        className="absolute top-20 right-20 w-72 h-72 bg-blue-200 dark:bg-blue-800 rounded-full opacity-20 blur-3xl"
+        variants={floatingVariants}
+        animate="animate"
+      ></motion.div>
+      <motion.div 
+        className="absolute top-40 left-20 w-72 h-72 bg-purple-200 dark:bg-purple-800 rounded-full opacity-20 blur-3xl"
+        variants={floatingVariants}
+        animate="animate"
+        transition={{ delay: 1 }}
+      ></motion.div>
+      <motion.div 
+        className="absolute bottom-20 left-40 w-72 h-72 bg-pink-200 dark:bg-pink-800 rounded-full opacity-20 blur-3xl"
+        variants={floatingVariants}
+        animate="animate"
+        transition={{ delay: 2 }}
+      ></motion.div>
+
+      {/* Main Content Container - Clean Grid Layout */}
+      <div className="relative z-10 max-w-6xl mx-auto w-full">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Content - Text Section */}
+          <motion.div 
+            className="space-y-8 text-left order-2 lg:order-1"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+          >
             <motion.div variants={itemVariants}>
-              <Badge variant="secondary" className="w-fit text-sm px-4 py-2 hover:scale-105 transition-transform cursor-default">
+              <Badge variant="secondary" className="mb-4 inline-block">
                 👋 Hello, I'm
               </Badge>
             </motion.div>
+            
             <motion.h1 
-              className="text-5xl lg:text-7xl font-bold leading-tight"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 dark:text-white leading-tight"
               variants={itemVariants}
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
             >
-              <motion.span 
-                className="text-gray-900 dark:text-white inline-block"
-                whileHover={{ scale: 1.05 }}
-              >
-                {personalInfo.name}
-              </motion.span>
+              {personalInfo.name}
             </motion.h1>
-            <motion.h2 
-              className="text-2xl lg:text-3xl font-medium text-gray-700 dark:text-gray-300"
+            
+            <motion.div 
+              className="text-xl md:text-2xl lg:text-3xl font-medium text-gray-700 dark:text-gray-300"
               variants={itemVariants}
             >
-              <span className="text-blue-600 dark:text-blue-400">Cyber Security</span> | <span className="text-purple-600 dark:text-purple-400">Blockchain</span> | <span className="text-pink-600 dark:text-pink-400">AI</span>
-            </motion.h2>
+              <span className="text-gray-600 dark:text-gray-400">I'm a </span>
+              <br className="block sm:hidden" />
+              <Typewriter 
+                words={typingWords}
+                className="text-blue-600 dark:text-blue-400 font-semibold"
+              />
+            </motion.div>
+            
             <motion.p 
-              className="text-lg text-gray-600 dark:text-gray-400 max-w-xl"
+              className="text-lg text-gray-600 dark:text-gray-400 max-w-xl leading-relaxed"
               variants={itemVariants}
             >
               {personalInfo.bio}
             </motion.p>
-          </div>
 
-          <motion.div 
-            className="flex flex-wrap gap-4 items-center"
-            variants={itemVariants}
-          >
-            <Button 
-              size="lg" 
-              className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg transform hover:scale-105 transition-transform"
-              onClick={() => scrollToSection('contact')}
+            <motion.div 
+              className="flex flex-col sm:flex-row gap-4"
+              variants={itemVariants}
             >
-              <Mail className="mr-2 h-5 w-5" />
-              Get in Touch
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="shadow-lg transform hover:scale-105 transition-transform"
-              asChild
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button 
+                  size="lg" 
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg"
+                  onClick={() => scrollToSection('contact')}
+                >
+                  <Mail className="mr-2 h-5 w-5" />
+                  Get in Touch
+                </Button>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Button 
+                  size="lg" 
+                  variant="outline" 
+                  className="shadow-lg"
+                  asChild
+                >
+                  <a href="/resume.pdf" download>
+                    <Download className="mr-2 h-5 w-5" />
+                    Download CV
+                  </a>
+                </Button>
+              </motion.div>
+            </motion.div>
+
+            <motion.div 
+              className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6"
+              variants={itemVariants}
             >
-              <a href="/resume.pdf" download>
-                <Download className="mr-2 h-5 w-5" />
-                Download CV
-              </a>
-            </Button>
+              <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Connect with me:</p>
+              <div className="flex gap-4">
+                <motion.a 
+                  href={personalInfo.social.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <Github className="h-5 w-5" />
+                </motion.a>
+                <motion.a 
+                  href={personalInfo.social.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
+                  whileHover={{ scale: 1.1, rotate: -5 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <Linkedin className="h-5 w-5" />
+                </motion.a>
+                <motion.a 
+                  href={personalInfo.social.twitter} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="p-3 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-blue-100 dark:hover:bg-blue-900 text-gray-600 dark:text-gray-400 hover:text-blue-600 transition-colors"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  transition={{ type: "spring", stiffness: 400 }}
+                >
+                  <Twitter className="h-5 w-5" />
+                </motion.a>
+              </div>
+            </motion.div>
           </motion.div>
 
+          {/* Right Content - Avatar Section */}
           <motion.div 
-            className="flex items-center gap-6"
-            variants={itemVariants}
+            className="flex justify-center items-center order-1 lg:order-2"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+            variants={floatingVariants}
           >
-            <p className="text-sm font-medium text-gray-600 dark:text-gray-400">Connect with me:</p>
-            <div className="flex gap-4">
-              <motion.a href={personalInfo.social.github} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2 }}>
-                <Github className="h-6 w-6 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" />
-              </motion.a>
-              <motion.a href={personalInfo.social.linkedin} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2 }}>
-                <Linkedin className="h-6 w-6 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" />
-              </motion.a>
-              <motion.a href={personalInfo.social.twitter} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.2, y: -2 }}>
-                <Twitter className="h-6 w-6 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors" />
-              </motion.a>
-            </div>
+            <motion.div 
+              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96"
+              whileHover={{ scale: 1.05 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
+              {/* Animated Glow Effect */}
+              <motion.div 
+                className="absolute inset-0 bg-gradient-to-br from-blue-400 to-purple-400 rounded-full opacity-20 blur-2xl"
+                variants={pulseVariants}
+                animate="animate"
+              ></motion.div>
+              
+              {/* Avatar Container with Rotation Animation */}
+              <motion.div 
+                className="relative w-full h-full rounded-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-800 p-2"
+                variants={rotateVariants}
+                animate="animate"
+              >
+                <div className="w-full h-full rounded-full bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 p-1">
+                  <motion.div 
+                    className="w-full h-full rounded-full bg-white dark:bg-gray-900 flex items-center justify-center"
+                    animate={{ rotate: [0, -360] }}
+                    transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                  >
+                    <motion.div 
+                      className="text-6xl md:text-7xl lg:text-8xl"
+                      whileHover={{ scale: 1.2, rotate: 10 }}
+                      transition={{ type: "spring", stiffness: 400 }}
+                    >
+                      👨‍💻
+                    </motion.div>
+                  </motion.div>
+                </div>
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
-
-        {/* Right Content - Image */}
-        <motion.div 
-          className="relative flex justify-center items-center"
-          variants={itemVariants}
-        >
-          <motion.div 
-            className="absolute w-64 h-64 lg:w-80 lg:h-80 bg-gradient-to-br from-blue-300 to-purple-300 dark:from-blue-700 dark:to-purple-700 rounded-full blur-2xl"
-            animate={{
-              rotate: 360,
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              ease: "linear"
-            }}
-          />
-          <motion.img
-            src="/profile-pic.png"
-            alt="Dhruv Gupta"
-            className="relative w-64 h-64 lg:w-80 lg:h-80 rounded-full object-cover shadow-2xl border-4 border-white dark:border-gray-800"
-            whileHover={{ scale: 1.05, rotate: 2 }}
-            transition={{ type: "spring", stiffness: 300 }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            drag
-            dragConstraints={{ left: -20, right: 20, top: -20, bottom: 20 }}
-          />
-        </motion.div>
-      </motion.div>
+      </div>
 
       {/* Scroll Down Arrow */}
       <motion.div 
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
         initial={{ y: -10, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 1.5, duration: 0.8 }}
       >
-        <motion.button
+        <button
           onClick={() => scrollToSection('about')}
-          className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          aria-label="Scroll to about section"
-          animate={{
-            y: [0, 10, 0]
-          }}
-          transition={{
-            duration: 1.5,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
+          className="p-3 rounded-full bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm text-gray-600 dark:text-gray-400 hover:bg-white dark:hover:bg-gray-800 transition-all duration-300 shadow-lg animate-bounce"
         >
           <ArrowDown className="h-6 w-6" />
-        </motion.button>
+        </button>
       </motion.div>
     </section>
   );
